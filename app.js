@@ -6,11 +6,14 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
-// Add this for session support
+// Added lines for session, passport, and connect-flash
 var session = require('express-session');
+var passport = require('./config/ppConfig');
+var flash = require('connect-flash');
 
 var index = require('./routes/index');
 var users = require('./routes/users');
+var auth = require('./routes/auth');
 
 var app = express();
 
@@ -39,8 +42,23 @@ app.use(session({
   saveUninitialized: true
 }));
 
+// Add the flash module in
+app.use(flash());
+
+app.use(function(req, res, next) {
+  // before every route, attach the flash messages and current user to res.locals
+  res.locals.alerts = req.flash();
+  res.locals.currentUser = req.user;
+  next();
+});
+
+// initialize the passport configuration and session as middleware
+app.use(passport.initialize());
+app.use(passport.session());
+
 app.use('/', index);
 app.use('/users', users);
+app.use('/auth', auth);
 
 // catch 404 and forward to error handler - commented out
 // app.use(function(req, res, next) {

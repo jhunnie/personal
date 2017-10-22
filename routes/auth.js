@@ -11,7 +11,9 @@ router.get('/login', function(req, res, next) {
 /* POST /auth/login route */
 router.post('/login', passport.authenticate('local', {
   successRedirect: '/',
-  failureRedirect: '/auth/login'
+  failureRedirect: '/auth/login',
+  failureFlash: 'Invalid username and/or password',
+  successFlash: 'You have successfully logged in'
 }));
 
 /* GET /auth/signup route */
@@ -23,7 +25,8 @@ router.post('/signup', function(req, res, next) {
   // Find by email
   User.findOne({ email: req.body.email }, function(err, user) {
     if (user) {
-      res.send("User already exists");
+      req.flash('error', 'Account already exists');
+      res.redirect('/auth/signup');
     } else {
       // create and save a user
       User.create({
@@ -35,7 +38,8 @@ router.post('/signup', function(req, res, next) {
           res.send(err.message)
         } else {
           passport.authenticate('local', {
-            successRedirect: '/'
+            successRedirect: '/',
+            successFlash: 'Account created and logged in'
           })(req, res, next);
         }
       });
@@ -45,7 +49,7 @@ router.post('/signup', function(req, res, next) {
 
 router.get('/logout', function(req, res, next) {
   req.logout();
-  console.log('logged out');
+  req.flash('success', 'You have logged out. Goodbye!');
   res.redirect('/');
 });
 
