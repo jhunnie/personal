@@ -38,9 +38,14 @@ router.post('/signup', function(req, res, next) {
           res.send(err.message)
         } else {
           passport.authenticate('local', {
-            successRedirect: '/',
             successFlash: 'Account created and logged in'
-          })(req, res, next);
+          })(req, res, function() {
+            console.log("WE JUST AUTHENTICATED AFTER A SIGNUP");
+            console.log('REQ.USER=' + req.user);
+            delete req.user.password;
+            res.status(201).send("success");
+            next();
+          });
         }
       });
     }
