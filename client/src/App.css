@@ -4,8 +4,10 @@
 
 .SignupBox {
   background: lightgreen;
+  padding: 0.5em;
 }
 
 .LoginBox {
   background: lightblue;
+  padding: 0.5em;
 }

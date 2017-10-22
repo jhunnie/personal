@@ -37,9 +37,9 @@ class Signup extends Component {
   render() {
     return (
       <form onSubmit={this.handleSubmit}>
-        Name: <input type='text' value={this.state.name} onChange={this.handleNameChange} />
-        Email: <input type='text' value={this.state.email} onChange={this.handleEmailChange} />
-        Password: <input type='password' value={this.state.password} onChange={this.handlePasswordChange} />
+        Name: <input type='text' value={this.state.name} onChange={this.handleNameChange} /><br />
+        Email: <input type='text' value={this.state.email} onChange={this.handleEmailChange} /><br />
+        Password: <input type='password' value={this.state.password} onChange={this.handlePasswordChange} /><br />
         <input type='submit' value='Sign Up' />
       </form>
     );
