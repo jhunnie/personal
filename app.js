@@ -11,6 +11,10 @@ var session = require('express-session');
 var passport = require('./config/ppConfig');
 var flash = require('connect-flash');
 
+// Mongoose stuff
+var mongoose = require('mongoose');
+mongoose.connect('mongodb://localhost/mern-local-auth');
+
 var index = require('./routes/index');
 var users = require('./routes/users');
 var auth = require('./routes/auth');
