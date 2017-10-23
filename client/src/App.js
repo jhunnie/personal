@@ -7,6 +7,7 @@ import {
 import './App.css';
 import Signup from './Signup';
 import Login from './Login';
+import AuthenticatedRoute from './AuthenticatedRoute';
 
 class App extends Component {
   render() {
@@ -17,6 +18,9 @@ class App extends Component {
         </div>
         <div className="LoginBox">
           <Login />
+        </div>
+        <div>
+          <AuthenticatedRoute />
         </div>
       </div>
     );
