@@ -86,4 +86,31 @@ router.get('/logout', function(req, res, next) {
   res.redirect('/');
 });
 
+// This is checked on a browser refresh
+router.post('/me/from/token', function(req, res, next) {
+  // check header or url parameters or post parameters for token
+  var token = req.body.token || req.query.token;
+  if (!token) {
+    return res.status(401).json({message: ‘Must pass token’});
+  }
+  // get current user from token
+  jwt.verify(token, secret, function(err, user) {
+    if (err) throw err;
+    //return user using the id from w/in JWTToken
+    User.findById({
+      '_id': user._id
+    }, function(err, user) {
+      if (err) throw err;
+      //Note: you can renew token by creating new token(i.e.
+      //refresh it)w/ new expiration time at this point, but I’m
+      //passing the old token back.
+      // var token = utils.generateToken(user);
+      res.json({
+        user: user,
+        token: token
+      });
+    });
+  });
+});
+
 module.exports = router;
