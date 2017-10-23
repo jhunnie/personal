@@ -23,16 +23,27 @@ var userSchema = new mongoose.Schema({
   }
 });
 
-// THIS IS AN OVERRIDE OF A SEQUELIZE METHOD. NEED TO CHECK TO SEE
-// IF ITS NECESSARY FOR MONGOOSE
-// Removes password from user object before returning to client
-// userSchema.methods.toJSON = function() {
-//   // get the user's JSON data
-//   var jsonUser = this.get();
-//   // delete the password from the JSON data, and return
-//   delete jsonUser.password;
-//   return jsonUser;
-// }
+// Override 'toJSON' to prevent the password from being returned with the user
+userSchema.set('toJSON', {
+  transform: function(doc, ret, options) {
+    var returnJson = {
+      id: ret._id,
+      email: ret.email,
+      name: ret.name
+    };
+    return returnJson;
+  }
+});
+
+userSchema.methods.authenticated = function(password, callback) {
+  bcrypt.compare(password, this.password, function(err, res) {
+    if (err) {
+      callback(err);
+    } else {
+      callback(null, res ? this : false);
+    }
+  });
+}
 
 // Mongoose's version of a beforeCreate hook
 userSchema.pre('save', function(next) {
