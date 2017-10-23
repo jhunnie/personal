@@ -25,7 +25,10 @@ class Login extends Component {
     axios.post('/auth/login', {
       email: this.state.email,
       password: this.state.password
-    }).then(result => localStorage.setItem('mernToken', result.data.token))
+    }).then(result => {
+      localStorage.setItem('mernToken', result.data.token)
+      this.props.lift(result.data.token)
+    })
   }
 
   render() {
