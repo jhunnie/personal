@@ -34,7 +34,7 @@ class Signup extends Component {
     }).then(result => {
       console.log(result.data)
       localStorage.setItem('mernToken', result.data.token)
-      this.props.lift(result.data.token)
+      this.props.lift(result.data)
     })
   }
 

@@ -13,13 +13,14 @@ class App extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      token: {}
+      token: {},
+      user: {}
     }
     this.liftTokenToState = this.liftTokenToState.bind(this)
   }
 
-  liftTokenToState(token) {
-    this.setState({token: token})
+  liftTokenToState(data) {
+    this.setState({token: data.token, user: data.user})
   }
 
   render() {

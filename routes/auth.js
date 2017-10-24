@@ -32,7 +32,7 @@ router.post('/login', function(req, res, next) {
       var token = jwt.sign(user.toObject(), secret, {
         expiresIn: 60 * 60 * 24 // expires in 24 hours
       });
-      req.flash('success', 'You are now logged in.')
+      // req.flash('success', 'You are now logged in.')
       res.send({user: user, token: token});
     } else {
       console.log("passwords don't match");
@@ -71,7 +71,7 @@ router.post('/signup', function(req, res, next) {
           var token = jwt.sign(user.toObject(), secret, {
             expiresIn: 60 * 60 * 24 // expires in 24 hours
           });
-          req.flash('success', 'Welcome to your new account! You are logged in.');
+          // req.flash('success', 'Welcome to your new account! You are logged in.');
           res.send({user: user, token: token});
         }
       });
@@ -82,7 +82,7 @@ router.post('/signup', function(req, res, next) {
 router.get('/logout', function(req, res, next) {
   // TODO: will need to invalidate the token here
   req.logout();
-  req.flash('success', 'You have logged out. Goodbye!');
+  // req.flash('success', 'You have logged out. Goodbye!');
   res.redirect('/');
 });
 
@@ -90,9 +90,11 @@ router.get('/logout', function(req, res, next) {
 router.post('/me/from/token', function(req, res, next) {
   // check header or url parameters or post parameters for token
   var token = req.body.token || req.query.token;
+
   if (!token) {
-    return res.status(401).json({message: ‘Must pass token’});
+    return res.status(401).json({message: 'Must pass token'});
   }
+
   // get current user from token
   jwt.verify(token, secret, function(err, user) {
     if (err) throw err;

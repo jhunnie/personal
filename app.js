@@ -7,9 +7,9 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
 // Added lines for session, passport, and connect-flash
-var session = require('express-session');
-var passport = require('./config/ppConfig');
-var flash = require('connect-flash');
+// var session = require('express-session');
+// var passport = require('./config/ppConfig');
+// var flash = require('connect-flash');
 
 // Mongoose stuff
 var mongoose = require('mongoose');
@@ -40,25 +40,25 @@ app.use(express.static(path.join(__dirname, 'public')));
  * [saveUninitialized]: If a session is new, but hasn't been changed, save it.
  * We'll set this to true.
  */
-app.use(session({
-  secret: process.env.SESSION_SECRET,
-  resave: false,
-  saveUninitialized: true
-}));
+// app.use(session({
+//   secret: process.env.SESSION_SECRET,
+//   resave: false,
+//   saveUninitialized: true
+// }));
 
 // Add the flash module in
-app.use(flash());
+// app.use(flash());
 
 app.use(function(req, res, next) {
   // before every route, attach the flash messages and current user to res.locals
-  res.locals.alerts = req.flash();
+  // res.locals.alerts = req.flash();
   res.locals.currentUser = req.user;
   next();
 });
 
 // initialize the passport configuration and session as middleware
-app.use(passport.initialize());
-app.use(passport.session());
+// app.use(passport.initialize());
+// app.use(passport.session());
 
 app.use('/', index);
 app.use('/users', users);
