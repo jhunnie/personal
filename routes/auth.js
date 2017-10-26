@@ -1,3 +1,4 @@
+require('dotenv').config();
 var express = require('express');
 var router = express.Router();
 var mongoose = require('mongoose');
@@ -7,8 +8,6 @@ var bcrypt = require('bcrypt');
 // Used for creating and sending tokens and protecting backend routes
 var expressJWT = require('express-jwt');
 var jwt = require('jsonwebtoken');
-
-var secret = 'Th#is is q*uite a ma$ssive cra@zy sec(ret';
 
 // GET /auth/login route
 router.get('/login', function(req, res, next) {
@@ -29,7 +28,7 @@ router.post('/login', function(req, res, next) {
     if (passwordMatch) {
       console.log("passwords match");
       // Make a token and return it as JSON
-      var token = jwt.sign(user.toObject(), secret, {
+      var token = jwt.sign(user.toObject(), process.env.JWT_SECRET, {
         expiresIn: 60 * 60 * 24 // expires in 24 hours
       });
       // req.flash('success', 'You are now logged in.')
@@ -68,7 +67,7 @@ router.post('/signup', function(req, res, next) {
           res.send(err.message)
         } else {
           // make a token & send it as JSON
-          var token = jwt.sign(user.toObject(), secret, {
+          var token = jwt.sign(user.toObject(), process.env.JWT_SECRET, {
             expiresIn: 60 * 60 * 24 // expires in 24 hours
           });
           // req.flash('success', 'Welcome to your new account! You are logged in.');
@@ -77,13 +76,6 @@ router.post('/signup', function(req, res, next) {
       });
     }
   });
-});
-
-router.get('/logout', function(req, res, next) {
-  // TODO: will need to invalidate the token here
-  req.logout();
-  // req.flash('success', 'You have logged out. Goodbye!');
-  res.redirect('/');
 });
 
 // This is checked on a browser refresh
@@ -96,7 +88,7 @@ router.post('/me/from/token', function(req, res, next) {
   }
 
   // get current user from token
-  jwt.verify(token, secret, function(err, user) {
+  jwt.verify(token, process.env.JWT_SECRET, function(err, user) {
     if (err) throw err;
     //return user using the id from w/in JWTToken
     User.findById({
