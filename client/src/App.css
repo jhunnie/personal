@@ -1,18 +1,66 @@
+/* MAIN APP STYLING START */
+h1 {
+  font-size: 45px;
+  font-family: serif;
+}
+h3 {
+  font-size: 30px;
+}
+a {
+  text-decoration: none;
+  font-family: cursive;
+  color: blue;
+}
+a:hover {
+  text-decoration: underline;
+  color: rgb(200, 200, 200);
+  color: green;
+}
 .App {
   text-align: center;
+  color: blue;
 }
+/* MAIN APP STYLING END */
 
-.SignupBox {
-  background: lightgreen;
-  padding: 0.5em;
-}
+/* //////////////////////////////////////////////////////////////////////// */
 
-.LoginBox {
-  background: lightblue;
-  padding: 0.5em;
+/* GENERAL STYLING 2 START */
+.bold {
+  font-weight: bold;
 }
+.normalWeight {
+  font-weight: normal;
+}
+.underline {
+  text-decoration: underline;
+}
+/* GENERAL STYLING END */
 
-.LogoutBox {
-  background: lightred;
-  padding: 0.5em;
+/* //////////////////////////////////////////////////////////////////////// */
+
+/* TO DO LIST COMPONENT START */
+.docsContainer {
+  width: 100vw;
 }
+.docs {
+  display: inline;
+  list-style-type: none;
+}
+.listItem {
+  float: left;
+  padding: 0px 30px;
+}
+.orderedList {
+  text-align: left;
+}
+/* TO DO LIST COMPONENT END */
+
+/* //////////////////////////////////////////////////////////////////////// */
+
+/* GENERAL STYLING 2 START */
+
+
+
+/* GENERAL STYLING END */
+
+/* //////////////////////////////////////////////////////////////////////// */
