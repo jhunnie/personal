@@ -6,10 +6,20 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var cors = require('cors');
+
 
 //FOR MONGOOSE
 var mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/boilerplate', { useMongoClient: true }); //commented out for heroku // "boilerplate" will be name of db
+mongoose.connect(process.env.MONGO_URI)
+  .then(() => { // if all is ok we will be here
+    console.log('Start');
+  })
+  .catch(err => {
+    console.log('Error: ', err.stack);
+    process.exit(1);
+  });
+// mongoose.connect('mongodb://localhost/boilerplate', { useMongoClient: true }); //commented out for heroku // "boilerplate" will be name of db
 // mongoose.connect(process.env.MONGODB_URI, {useMongoClient: true});  // for heroku deployment
 
 //FOR ROUTES
@@ -18,14 +28,15 @@ var index = require('./routes/index');
 //USING NPM PACKAGES
 var app = express();
 
+app.use(cors());
 app.use(logger('dev'));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public'))); //commented out for heroku
 // app.use(express.static(path.resolve(__dirname, 'client', 'build'))); //for heroku deployment
 
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   // before every route, attach the flash messages and current user to res.locals
   res.locals.currentUser = req.user;
   next();
@@ -33,6 +44,7 @@ app.use(function(req, res, next) {
 
 //FOR ROUTES AGAIN
 app.use('/', index);
+
 // for heroku deployment
 // app.get('*', function(req, res, next) {
 // 	res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
